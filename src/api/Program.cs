@@ -1,4 +1,6 @@
 using api.Data;
+using api.interfaces;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,14 +10,13 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 );
 
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddControllers();
+builder.Services.AddScoped<IAuth, AuthService>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
 app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
