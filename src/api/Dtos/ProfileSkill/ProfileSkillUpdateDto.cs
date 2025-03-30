@@ -2,8 +2,8 @@ using System;
 
 namespace api.Dtos.ProfileSkill
 {
-    public class UpdateProfileSkill
+    public class ProfileSkillUpdateDto
     {
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
     }
 }
