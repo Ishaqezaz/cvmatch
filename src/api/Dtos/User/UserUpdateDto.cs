@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.Dtos.User
 {
-    public class UserUpdate
+    public class UserUpdateDto
     {
         [MaxLength(40)]
         public string? FirstName { get; set; }
