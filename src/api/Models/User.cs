@@ -25,8 +25,6 @@ namespace api.Models
         [Required]
         [MaxLength(255)]
         public string HashPassword { get; set; } = string.Empty;
-
-        public int? ProfileId { get; set; } // orphan
         
         public Profile? Profile { get; set; }
     }
