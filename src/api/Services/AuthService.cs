@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using api.Common;
 
-// will fix custom exceptions later
 
 namespace api.Services
 {
@@ -31,35 +31,38 @@ namespace api.Services
             _config = config;
         }
 
-        public async Task<UserResponseDto> CreateUserAsync(UserCreateDto dto)
+        public async Task<ServiceResponse<UserResponseDto>> CreateUserAsync(UserCreateDto dto)
         {
             var exist = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (exist != null)
-                throw new Exception("User already exists");
+                // need proper factory, this is baked into a typed class. good for now
+                return ServiceResponse<UserResponseDto>.Fail("User already exist");
 
             User user = _mapper.Map<User>(dto);
             user.HashPassword = _pwdHasher.HashPassword(user, dto.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+            var data = _mapper.Map<UserResponseDto>(user);
 
-            return _mapper.Map<UserResponseDto>(user);
+            return ServiceResponse<UserResponseDto>.Success("Created user", data);
         }
 
-        public async Task<string> LoginUserAsync(LoginDto dto)
+        public async Task<ServiceResponse<string>> LoginUserAsync(LoginDto dto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+
             if (user is null)
-                throw new Exception("Wrong credentials");
+                return ServiceResponse<string>.Fail("Wrong credentials");
 
             var match = _pwdHasher.VerifyHashedPassword(user, user.HashPassword, dto.Password);
 
             if (match == PasswordVerificationResult.Failed)
-                throw new Exception("Wrong crendentials");
+                return ServiceResponse<string>.Fail("Wrong credentials");
 
             var token = CreateJwtToken(user);
-            return token;
+            return ServiceResponse<string>.Success("Token created", token);
         }
 
         public string CreateJwtToken(User user)

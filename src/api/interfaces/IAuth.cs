@@ -1,4 +1,5 @@
 using System;
+using api.Common;
 using api.Dtos.Auth;
 using api.Dtos.User;
 using api.Models;
@@ -7,10 +8,8 @@ namespace api.interfaces
 {
     public interface IAuth
     {
-        Task<UserResponseDto> CreateUserAsync(UserCreateDto dto);
-
-        Task<string> LoginUserAsync(LoginDto dto);
-
+        Task<ServiceResponse<UserResponseDto>> CreateUserAsync(UserCreateDto dto);
+        Task<ServiceResponse<string>> LoginUserAsync(LoginDto dto);
         string CreateJwtToken(User user);
     }
 }

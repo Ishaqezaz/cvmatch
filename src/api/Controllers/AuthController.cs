@@ -2,7 +2,6 @@ using System;
 using api.Dtos.Auth;
 using api.Dtos.User;
 using api.interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -10,7 +9,7 @@ namespace api.Controllers
     [ApiController] // includes model validator
     [Route("api/auth")]
     public class AuthController : ControllerBase
-    {   
+    {
         private readonly IAuth _auth; // delegate tasks to auth service
         public AuthController(IAuth auth)
         {
@@ -21,6 +20,10 @@ namespace api.Controllers
         public async Task<IActionResult> Register([FromBody] UserCreateDto dto)
         {
             var response = await _auth.CreateUserAsync(dto);
+            
+            if(!response.IsSuccess)
+                return Conflict(response);
+
             return Created(string.Empty, response);
         }
 
@@ -28,7 +31,11 @@ namespace api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             var response = await _auth.LoginUserAsync(dto);
-            return Ok(new {token = response});
+            
+            if(!response.IsSuccess)
+                return BadRequest(response);
+
+            return Ok(new { token = response.Data });
         }
     }
 }
