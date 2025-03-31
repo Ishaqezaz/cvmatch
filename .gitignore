@@ -5,6 +5,9 @@ src/api/obj/
 # user
 *.user
 
+# tests
+src/api.Tests/
+
 # env
 .vscode/
 .DS_Store
