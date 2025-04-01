@@ -1,5 +1,5 @@
 using api.Data;
-using api.interfaces;
+using api.Interfaces;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +11,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers();
-builder.Services.AddScoped<IAuth, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

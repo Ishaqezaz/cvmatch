@@ -4,7 +4,7 @@ using System.Security.Claims;
 using api.Data;
 using api.Dtos.Auth;
 using api.Dtos.User;
-using api.interfaces;
+using api.Interfaces;
 using api.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +16,7 @@ using api.Common;
 
 namespace api.Services
 {
-    public class AuthService : IAuth
+    public class AuthService : IAuthService
     {
         private readonly ApplicationDBContext _context;
         private readonly IMapper _mapper;

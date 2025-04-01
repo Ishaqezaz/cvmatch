@@ -1,7 +1,7 @@
 using System;
 using api.Dtos.Auth;
 using api.Dtos.User;
-using api.interfaces;
+using api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -10,8 +10,8 @@ namespace api.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuth _auth; // delegate tasks to auth service
-        public AuthController(IAuth auth)
+        private readonly IAuthService _auth; // delegate tasks to auth service
+        public AuthController(IAuthService auth)
         {
             _auth = auth;
         }

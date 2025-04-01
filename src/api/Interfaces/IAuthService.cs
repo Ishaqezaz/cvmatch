@@ -4,9 +4,9 @@ using api.Dtos.Auth;
 using api.Dtos.User;
 using api.Models;
 
-namespace api.interfaces
+namespace api.Interfaces
 {
-    public interface IAuth
+    public interface IAuthService
     {
         Task<ServiceResponse<UserResponseDto>> CreateUserAsync(UserCreateDto dto);
         Task<ServiceResponse<string>> LoginUserAsync(LoginDto dto);
