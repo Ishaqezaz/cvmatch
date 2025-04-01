@@ -6,7 +6,8 @@ src/api/obj/
 *.user
 
 # tests
-src/api.Tests/
+tests/api.Tests/bin/
+tests/api.Tests/obj/
 
 # env
 .vscode/
