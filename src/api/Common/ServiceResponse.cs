@@ -19,7 +19,7 @@ namespace api.Common
             ErrorCode = code ?? ServiceErrorCode.None;
         }
 
-        public static ServiceResponse<T> Success(string message, T data)
+        public static ServiceResponse<T> Success(string message, T? data)
             => new ServiceResponse<T>(message, true, data, default);
         
         public static ServiceResponse<T> Fail(string message, ServiceErrorCode code)
