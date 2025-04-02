@@ -9,18 +9,18 @@ namespace api.Common
         public string Message { get; set; }
         public bool IsSuccess { get; set; }
         public T? Data { get; set; }
-        public ServiceErrorCode ErrorCode { get; set; }
+        public ServiceErrorCode? ErrorCode { get; set; }
 
         public ServiceResponse(string message, bool success, T? data, ServiceErrorCode? code)
         {
             Message = message;
             IsSuccess = success;
             Data = data;
-            ErrorCode = code ?? ServiceErrorCode.None;
+            ErrorCode = code;
         }
 
         public static ServiceResponse<T> Success(string message, T? data)
-            => new ServiceResponse<T>(message, true, data, default);
+            => new ServiceResponse<T>(message, true, data, null);
         
         public static ServiceResponse<T> Fail(string message, ServiceErrorCode code)
             => new ServiceResponse<T>(message, false, default, code);
