@@ -3,6 +3,7 @@ using api.Dtos.Auth;
 using api.Dtos.User;
 using api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using api.Common;
 
 namespace api.Controllers
 {
@@ -21,7 +22,7 @@ namespace api.Controllers
         {
             var response = await _auth.CreateUserAsync(dto);
             
-            if(!response.IsSuccess)
+            if(response.ErrorCode == ServiceErrorCode.Conflict)
                 return Conflict(response);
 
             return Created(string.Empty, response);
@@ -32,8 +33,8 @@ namespace api.Controllers
         {
             var response = await _auth.LoginUserAsync(dto);
             
-            if(!response.IsSuccess)
-                return BadRequest(response);
+            if(response.ErrorCode == ServiceErrorCode.Unauthorized)
+                return Unauthorized(response);
 
             return Ok(new { token = response.Data });
         }

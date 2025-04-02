@@ -37,7 +37,7 @@ namespace api.Services
 
             if (exist != null)
                 // need proper factory, this is baked into a typed class. good for now
-                return ServiceResponse<UserResponseDto>.Fail("User already exist");
+                return ServiceResponse<UserResponseDto>.Fail("User already exist", ServiceErrorCode.Conflict);
 
             User user = _mapper.Map<User>(dto);
             user.HashPassword = _pwdHasher.HashPassword(user, dto.Password);
@@ -54,12 +54,12 @@ namespace api.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user is null)
-                return ServiceResponse<string>.Fail("Wrong credentials");
+                return ServiceResponse<string>.Fail("Wrong credentials", ServiceErrorCode.Unauthorized);
 
             var match = _pwdHasher.VerifyHashedPassword(user, user.HashPassword, dto.Password);
 
             if (match == PasswordVerificationResult.Failed)
-                return ServiceResponse<string>.Fail("Wrong credentials");
+                return ServiceResponse<string>.Fail("Wrong credentials", ServiceErrorCode.Unauthorized);
 
             var token = CreateJwtToken(user);
             return ServiceResponse<string>.Success("Token created", token);
