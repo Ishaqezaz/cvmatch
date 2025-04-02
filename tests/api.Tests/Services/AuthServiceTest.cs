@@ -1,15 +1,15 @@
 using System.Threading.Tasks;
-using Xunit;
 using api.Services;
 using api.Dtos.User;
 using api.Dtos.Auth;
+using api.Common;
 
 
 namespace api.Tests.Services
 {
     public class AuthServiceTests : TestBase
     {
-        private AuthService CreateService() 
+        private AuthService CreateService()
             => new AuthService(_context, _mapper, _config);
 
         [Fact]
@@ -31,10 +31,11 @@ namespace api.Tests.Services
             Assert.Equal("Ronaldo", response.Data.FirstName);
             Assert.Equal("OverMessi", response.Data.LastName);
             Assert.Equal("halamadrid@gmail.com", response.Data.Email);
+            Assert.Equal(ServiceErrorCode.None, response.ErrorCode);
         }
 
         [Fact]
-        public async Task CreateUserNegatice()
+        public async Task CreateUserNegative()
         {
             var service = CreateService();
             var userDto = new UserCreateDto
@@ -50,6 +51,7 @@ namespace api.Tests.Services
 
             Assert.False(duplicateResponse.IsSuccess, "Creation should fail for duplicate email");
             Assert.Equal("User already exist", duplicateResponse.Message);
+            Assert.Equal(ServiceErrorCode.Conflict, duplicateResponse.ErrorCode);
         }
 
         [Fact]
@@ -78,7 +80,7 @@ namespace api.Tests.Services
             Assert.True(response.IsSuccess, "Login should succeed");
             Assert.NotNull(response.Data);
             Assert.Equal("Token created", response.Message);
-
+            Assert.Equal(ServiceErrorCode.None, response.ErrorCode);
         }
 
         [Fact]
@@ -107,6 +109,7 @@ namespace api.Tests.Services
             Assert.False(response.IsSuccess, "Login should fail");
             Assert.Null(response.Data);
             Assert.Equal("Wrong credentials", response.Message);
+            Assert.Equal(ServiceErrorCode.Unauthorized, response.ErrorCode);
         }
     }
 }
