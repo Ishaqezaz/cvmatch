@@ -31,7 +31,7 @@ namespace api.Tests.Services
             Assert.Equal("Ronaldo", response.Data.FirstName);
             Assert.Equal("OverMessi", response.Data.LastName);
             Assert.Equal("halamadrid@gmail.com", response.Data.Email);
-            Assert.Equal(ServiceErrorCode.None, response.ErrorCode);
+            Assert.Null(response.ErrorCode);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace api.Tests.Services
             Assert.True(response.IsSuccess, "Login should succeed");
             Assert.NotNull(response.Data);
             Assert.Equal("Token created", response.Message);
-            Assert.Equal(ServiceErrorCode.None, response.ErrorCode);
+            Assert.Null(response.ErrorCode);
         }
 
         [Fact]
