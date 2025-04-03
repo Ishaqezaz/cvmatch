@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace api.Dtos.ProfileLocation
 {
@@ -6,6 +8,6 @@ namespace api.Dtos.ProfileLocation
     {
         [Required]
         [MaxLength(20)]
-        public required string Name { get; set; } = string.Empty;
+        public required string Location { get; set; } = string.Empty;
     }
 }
