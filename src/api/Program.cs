@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using api.Interfaces.Repository;
+using api.Repository;
+using System.Net.Http.Headers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +40,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
         };
     });
+
+builder.Services.AddHttpClient<IOpenAiRepository, OpenAiRepository>(client =>
+{
+    client.BaseAddress = new Uri("https://api.openai.com/v1/");
+    client.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", builder.Configuration["OpenAI:APIKey"]);
+});
+
+builder.Services.AddScoped<IPdfReaderRepository, PdfReaderRepository>();
+builder.Services.AddScoped<ICVScannerService, CVScannerService>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+
 
 
 var app = builder.Build();
