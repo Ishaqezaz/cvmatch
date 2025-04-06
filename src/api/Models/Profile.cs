@@ -7,11 +7,6 @@ namespace api.Models
     {
         public int ProfileId { get; set; }
 
-        [MaxLength(20)]
-        public string? City { get; set; }
-
-        public string? CVPath { get; set; }
-
         public List<ProfileSkill> Skills { get; set; } = new();
 
         public List<ProfileLocation> Locations { get; set; } = new();
