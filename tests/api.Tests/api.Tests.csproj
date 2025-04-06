@@ -24,4 +24,14 @@
     <ProjectReference Include="..\..\src\api\api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\svenska-orter.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <None Update="Resources\CV.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
